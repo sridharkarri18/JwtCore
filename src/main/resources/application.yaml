@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/JwtCore
+    username: postgres
+    password: Sridhar
+    driverClassName: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    generate-ddl: false
+    hibernate:
+
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.xml
+server:
+    port: 8081
