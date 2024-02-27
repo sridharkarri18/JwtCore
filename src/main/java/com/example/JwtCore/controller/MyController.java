@@ -3,6 +3,7 @@ package com.example.JwtCore.controller;
 import com.example.JwtCore.entity.Users;
 import com.example.JwtCore.exceptions.UserDefinedException;
 import com.example.JwtCore.model.requests.UserRequest;
+import com.example.JwtCore.model.responses.UserResponsedto;
 import com.example.JwtCore.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -21,18 +22,18 @@ public class MyController {
 
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public List<Users> fetchAllUsers() {
+    public List<UserResponsedto> fetchAllUsers() {
         return userService.fetchAll();
     }
 
     @PostMapping("/add")
-    public Users createUser(@Valid @RequestBody UserRequest userRequest) throws UserDefinedException {
+    public UserResponsedto createUser(@Valid @RequestBody UserRequest userRequest) throws UserDefinedException {
         return userService.newUser(userRequest);
     }
 
     @PutMapping("/update")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public Users updateUser(@RequestBody UserRequest userRequest) throws UserDefinedException {
+    public UserResponsedto updateUser(@RequestBody UserRequest userRequest) throws UserDefinedException {
         return userService.updateUser(userRequest);
     }
 

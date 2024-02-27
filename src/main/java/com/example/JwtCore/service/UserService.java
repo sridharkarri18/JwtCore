@@ -4,7 +4,9 @@ import com.example.JwtCore.entity.Roles;
 import com.example.JwtCore.entity.Users;
 import com.example.JwtCore.exceptions.UserDefinedException;
 import com.example.JwtCore.model.requests.UserRequest;
+import com.example.JwtCore.model.responses.UserResponsedto;
 import com.example.JwtCore.repositories.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -20,16 +23,21 @@ import java.util.List;
 public class UserService implements UserDetailsService {
 
     @Autowired
+    private ModelMapper mapper;
+    @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public List<Users> fetchAll() {
-        return userRepository.findAll();
+    public List<UserResponsedto> fetchAll() {
+        List<Users> all = userRepository.findAll();
+        List<UserResponsedto> userResponsedtoList = Arrays.stream(mapper.map(all, UserResponsedto[].class)).toList();
+        return userResponsedtoList;
     }
 
-    public Users newUser(UserRequest userRequest) throws UserDefinedException {
+
+    public UserResponsedto newUser(UserRequest userRequest) throws UserDefinedException {
         Users user = new Users();
         Users existingUser = userRepository.findByEmail(userRequest.getEmail());
 
@@ -45,11 +53,12 @@ public class UserService implements UserDetailsService {
         } else {
             throw new UserDefinedException("Email already exists");
         }
-
-        return userRepository.save(user);
+        UserResponsedto userResponsedtoList = mapper.map(user, UserResponsedto.class);
+        userRepository.save(user);
+        return userResponsedtoList;
     }
 
-    public Users updateUser(UserRequest userRequest) throws UserDefinedException {
+    public UserResponsedto updateUser(UserRequest userRequest) throws UserDefinedException {
         Users user = userRepository.findById(getDetails())
                 .orElseThrow(() -> new UserDefinedException("User not found with id: " + getDetails()));
 
@@ -62,8 +71,9 @@ public class UserService implements UserDetailsService {
         if (isValidString(userRequest.getEmail())) {
             user.setEmail(userRequest.getEmail());
         }
-
-        return userRepository.save(user);
+        UserResponsedto userResponsedtoList = mapper.map(user, UserResponsedto.class);
+        userRepository.save(user);
+        return userResponsedtoList;
     }
 
 
@@ -99,7 +109,6 @@ public class UserService implements UserDetailsService {
         int id = userRepository.findByEmail(name).getId();
         return id;
     }
-
 
 
 }
