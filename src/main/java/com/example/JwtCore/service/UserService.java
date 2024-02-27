@@ -72,10 +72,11 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public String softDelete(int userid) throws UserDefinedException {
-        Users user = userRepository.findById(userid)
-                .orElseThrow(() -> new UserDefinedException("User not found with id: " + userid));
+    public String softDelete() throws UserDefinedException {
+        Users user = userRepository.findById(getDetails())
+                .orElseThrow(() -> new UserDefinedException("User not found with id: " + getDetails()));
         user.setStatus(1);
+        userRepository.save(user);
         return "User removed Successfully";
     }
 

@@ -38,8 +38,8 @@ public class MyController {
 
     @DeleteMapping("/remove")
     @PreAuthorize("hasAuthority('USER')")
-    public String remove(@RequestParam("userid") int userid) throws UserDefinedException {
-        return userService.softDelete(userid);
+    public String remove() throws UserDefinedException {
+        return userService.softDelete();
     }
 
     @DeleteMapping("/delete")
