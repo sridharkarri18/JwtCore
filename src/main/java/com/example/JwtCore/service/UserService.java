@@ -6,6 +6,7 @@ import com.example.JwtCore.exceptions.UserDefinedException;
 import com.example.JwtCore.model.requests.UserRequest;
 import com.example.JwtCore.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -38,29 +39,25 @@ public class UserService implements UserDetailsService {
             user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
             if (userRequest.getEmail().toLowerCase().contains("@img.com")) {
                 user.setRole(Roles.ADMIN);
-            }
-            else
-            {
+            } else {
                 user.setRole(Roles.USER);
             }
-        }
-        else
-        {
+        } else {
             throw new UserDefinedException("Email already exists");
         }
 
         return userRepository.save(user);
     }
 
-    public Users updateUser(int userId, UserRequest userRequest) throws UserDefinedException {
-        Users user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserDefinedException("User not found with id: " + userId));
+    public Users updateUser(UserRequest userRequest) throws UserDefinedException {
+        Users user = userRepository.findById(getDetails())
+                .orElseThrow(() -> new UserDefinedException("User not found with id: " + getDetails()));
 
         if (isValidString(userRequest.getName())) {
             user.setName(userRequest.getName());
         }
         if (isValidString(userRequest.getPassword())) {
-            user.setPassword(userRequest.getPassword());
+            user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         }
         if (isValidString(userRequest.getEmail())) {
             user.setEmail(userRequest.getEmail());
@@ -68,6 +65,7 @@ public class UserService implements UserDetailsService {
 
         return userRepository.save(user);
     }
+
 
     private boolean isValidString(String str) {
         return str != null && !str.trim().isEmpty();
@@ -93,4 +91,14 @@ public class UserService implements UserDetailsService {
         Users user = userRepository.findByEmail(username);
         return user;
     }
+
+
+    public int getDetails() {
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        int id = userRepository.findByEmail(name).getId();
+        return id;
+    }
+
+
+
 }

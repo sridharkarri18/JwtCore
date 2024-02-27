@@ -35,7 +35,6 @@ public class LoginController {
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
         Authentication authentication = authenticationManager.authenticate(token);
-
         if (authentication.isAuthenticated()) {
             String generatedToken = jwtService.generateToken(loginRequest.getEmail());
             return LoginResponse.builder()

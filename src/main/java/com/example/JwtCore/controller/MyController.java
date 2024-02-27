@@ -31,9 +31,9 @@ public class MyController {
     }
 
     @PutMapping("/update")
-    @PreAuthorize("hasAuthority('USER')")
-    public Users updateUser(@RequestParam("userid") int userid, @RequestBody UserRequest userRequest) throws UserDefinedException {
-        return userService.updateUser(userid, userRequest);
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    public Users updateUser(@RequestBody UserRequest userRequest) throws UserDefinedException {
+        return userService.updateUser(userRequest);
     }
 
     @DeleteMapping("/remove")
