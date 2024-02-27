@@ -1,0 +1,144 @@
+{
+	"info": {
+		"_postman_id": "43194899-df99-4b98-89d2-4eae4781470d",
+		"name": "JwtCore",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "29225868"
+	},
+	"item": [
+		{
+			"name": "All-Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8081/User/all"
+			},
+			"response": []
+		},
+		{
+			"name": "Add-User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"praveen\",\r\n    \"password\":\"praveen\",\r\n    \"email\":\"praveen12@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8081/add"
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"praveen12@gmail.com\",\r\n    \"password\":\"praveen\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8081/auth/login"
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh-token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Mywic3ViIjoiVmluYXlWYXJtYUBJbWcuY29tIiwiaWF0IjoxNzA4OTQyNDg1LCJleHAiOjE3MDkwMjg4ODV9.cgmBz5tyN16dPOrFQDKU-RGujlaz4fGdNTU8xAJZUqc\"\r\n     \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8081/auth/refresh"
+			},
+			"response": []
+		},
+		{
+			"name": "Update User Fields ",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwcmF2ZWVuMTNAZ21haWwuY29tIiwiaWF0IjoxNzA5MDE2MzMzLCJleHAiOjE3MDkwMTY0NTN9.A3sTalZL_mywssRiYGPGUhKT3kRNTDTrxwODJ4G9IMA"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Praveen\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8081/User/update"
+			},
+			"response": []
+		},
+		{
+			"name": "Remove-user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwcmF2ZWVuMTNAZ21haWwuY29tIiwiaWF0IjoxNzA5MDE3MDQxLCJleHAiOjE3MDkwMTcxNjF9.pLfms1PXSLWYGVbqagspegwgos9riajrE-thQWPYdI0"
+					}
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:8081/User/remove"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete-user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTcmlkaGFyQEltZy5jb20iLCJpYXQiOjE3MDkwMTcwOTAsImV4cCI6MTcwOTAxNzIxMH0.MDYAx9wLaDkA5gnZEaoX3hUFk3DcV13kmq3pdvp-EgM"
+					}
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/User/delete?userid=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"User",
+						"delete"
+					],
+					"query": [
+						{
+							"key": "userid",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
