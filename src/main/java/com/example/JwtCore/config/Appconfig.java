@@ -47,6 +47,7 @@ public class Appconfig {
                 .authorizeRequests()
                 .requestMatchers("auth/**","/User/add").permitAll()
                 .requestMatchers("/User/all","/User/update","/User/remove","/User/delete").authenticated()
+                .requestMatchers("/User/v1").permitAll()
                 .and()
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(entryPoint))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -88,7 +89,7 @@ public class Appconfig {
                         .title("Spring Jwt Security")
                         .version("1.0")
                         .contact(new Contact()
-                                .name("Sridhar")
+                                .name("ShyamSridharKarri")
                                 .email("sridharkarri18@gmail.com")));
 
     }
