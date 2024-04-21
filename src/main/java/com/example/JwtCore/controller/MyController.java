@@ -49,5 +49,10 @@ public class MyController {
         return userService.hardDelete(userid);
     }
 
+    @GetMapping("/v1")
+    public String m1(){
+        return "welcome";
+    }
+
 
 }
